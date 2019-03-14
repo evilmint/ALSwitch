@@ -9,6 +9,7 @@
 import CoreGraphics
 import UIKit
 
+/// ALSwitch is a basic CoreGraphics implementation of the native UISwitch.
 @IBDesignable public class ALSwitch: UIControl {
     private var width: CGFloat = 51
     private var height: CGFloat = 31
@@ -17,6 +18,8 @@ import UIKit
     private var changedValuesInTouches = false
     private let minimumPadding: CGFloat = 1
 
+    /// Defines padding of the main switch area.
+    /// Minimum value is 1.0.
     @IBInspectable public var knobPadding: CGFloat = 2.0 {
         didSet {
             knobPadding = max(minimumPadding, knobPadding)
@@ -24,6 +27,8 @@ import UIKit
         }
     }
 
+    /// Defines the fill color of the main switch area.
+    /// If onFillColor is defined, it is used for the on state.
     @IBInspectable public var fillColor: UIColor = UIColor(red: 75.9 / 255.0,
                                                            green: 215.7 / 255.0,
                                                            blue: 99.7 / 255.0, alpha: 1.0) {
@@ -32,24 +37,30 @@ import UIKit
         }
     }
 
+    /// Defines the fill color of the main switch area for the on state.
     @IBInspectable public var onFillColor: UIColor? {
         didSet {
             setNeedsDisplay()
         }
     }
 
+    /// Defines the fill color of the knob.
+    /// If onFillColor is defined, it is used for the on state.
     @IBInspectable public var knobColor: UIColor = UIColor.white {
         didSet {
             setNeedsDisplay()
         }
     }
 
+    /// Defines the fill color of the knob for the on state.
     @IBInspectable public var onKnobColor: UIColor? {
         didSet {
             setNeedsDisplay()
         }
     }
 
+    /// Returns true if the switch is in the "on" state, otherwise "false".
+    /// Used for setting the switch's state.
     @IBInspectable public var isOn: Bool = false {
         didSet {
             setNeedsDisplay()
@@ -71,7 +82,7 @@ import UIKit
         setup()
     }
 
-    func setup() {
+    private func setup() {
         clipsToBounds = false
         layer.masksToBounds = false
         accessibilityTraits = UIAccessibilityTraits.button
@@ -108,13 +119,6 @@ import UIKit
 
     private func toggleValue() {
         isOn = !isOn
-    }
-
-    @objc private func swipeRight(_ sender: Any) {
-        guard !isOn else { return }
-        isOn = true
-        setNeedsDisplay()
-        sendActions(for: .valueChanged)
     }
 
     private func roundedRectangle(from rect: CGRect, radius: CGFloat) -> CGPath {
